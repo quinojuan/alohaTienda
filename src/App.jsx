@@ -1,4 +1,4 @@
-import { Link, Route, Routes, useParams } from "react-router-dom";
+import { Link, Route, Routes, useParams, Outlet, NavLink } from "react-router-dom";
 import "./App.css";
 
 const Home = () => <h2>Home</h2>;
@@ -20,14 +20,22 @@ const SearchPage = () => {
 };
 
 const Tacos = () => {
-  const { name } = useParams();
+  const { taco } = useParams();
 
   return (
     <div>
       <h1>Tacos</h1>
-      <p>{name}</p>
+      {taco}
+      <Link to="details"> - Ir a los detalles</Link>
+      <Outlet />
     </div>
   );
+};
+
+const TacoDetails = () => {
+  const { taco } = useParams();
+
+  return <h1>Taco Details {taco}</h1>;
 };
 
 function App() {
@@ -38,10 +46,21 @@ function App() {
         <nav>
           <ul>
             <li>
-              <Link to="/">Home</Link>
+              <NavLink
+                className={({ isActive }) => {
+                  return isActive ? "isActive" : undefined;
+                }}
+                to="/"
+              >
+                Home
+              </NavLink>
             </li>
             <li>
-              <Link to="/search-page">Search page</Link>
+              <NavLink 
+              className={({ isActive }) => {
+                return isActive ? "isActiveTwo" : undefined;
+              }}
+              to="/search-page">Search page</NavLink>
             </li>
           </ul>
         </nav>
@@ -49,7 +68,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/search-page" element={<SearchPage />} />
-        <Route path="/tacos/:name" element={<Tacos />} />
+        <Route path="/tacos/:taco" element={<Tacos />}>
+          <Route path="details" element={<TacoDetails />} />
+        </Route>
+        <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>
     </div>
   );

@@ -20,3 +20,13 @@ nav ul {
 a {
   text-decoration: none;
 }
+
+nav a.isActive {
+  font-weight: bold;
+  pointer-events: none;
+}
+nav a.isActiveTwo {
+  font-weight: bold;
+  color: red;
+  pointer-events: none;
+}
